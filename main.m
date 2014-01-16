@@ -5,7 +5,7 @@ ki = [2];
 ERi = [0.04];
 
 global A W k ER T_;
-t = (0:0.001:1);
+t = (0:0.1:1);
 stat = [];
 
 for aa = 1:1

@@ -1,0 +1,5 @@
+function out = InnerIntegrand(s, )
+% The inner integrand of the function. ds.
+global A W k ER T_
+
+end
