@@ -1,0 +1,22 @@
+% The main procedure of the numerical analysis of Fitts' Law.
+Ai = [300]
+Wi = [25];
+ki = [2];
+ERi = [0.04];
+
+global A W k ER 
+stat = [];
+
+for aa = 1:1
+    for ww = 1:1
+        for kk = 1:1
+            for ee = 1:1
+                A = Ai(aa);
+                W = Wi(ww);
+                k = ki(kk);
+                ER = ERi(ee);
+                
+                s0 = 5;
+                sigma = fsolve(@func, s0, optimset('Display', 'iter'));
+                T = k * A / sigma;
+                
