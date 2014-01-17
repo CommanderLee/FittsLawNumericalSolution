@@ -1,8 +1,8 @@
 % The main procedure of the numerical analysis of Fitts' Law.
 Ai = [300 200 400 500];
-Wi = [25];%30];
-ki = [0.015]; %  0.010 0.020];
-ERi = [0.04]; %  0.02 0.06];
+Wi = [25 30];
+ki = [0.015 0.020];
+ERi = [0.04 0.06];
 dt = 0.01;
 Ti = (0.1:dt:3.0);
 
@@ -24,18 +24,17 @@ for aa = 1:ca
     for ww = 1:cw
         for kk = 1:ck
             for ee = 1:ce
+                A = Ai(aa);
+                W = Wi(ww);
+                k = ki(kk);
+                ER = ERi(ee);
                 
+                fprintf('[A=%f, W=%f, k=%f, ER<=%f] start.\n', A, W, k, ER);
                 % Calculate for 4 times to get a more precise peak.
                 for ii = 1:4
                     N = ct;
                     stat = zeros(N, 7);
                     cnt = 0;
-                    
-                    
-                    A = Ai(aa);
-                    W = Wi(ww);
-                    k = ki(kk);
-                    ER = ERi(ee);
                     
                     for tt = 1:ct
                         T = Ti(tt);
