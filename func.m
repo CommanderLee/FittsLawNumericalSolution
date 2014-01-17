@@ -21,9 +21,9 @@ for a = (-inf):dL:(-W/2 - dL)
         subSum = subSum + Ak(k) * p1 * OuterIntegrand(L, T_);
     end
     sum = sum + subSum;
-    % fprintf('T_:%f, a=%f, b=%f, subSum=%f.\n', T_, a, b, subSum);
+    % fprintf('T_:%f, a=%f, b=%f, p1=%f, p2=%f, subSum=%f.\n', T_, a, b, p1, p2, subSum);
 end
-out = 1 / (sqrt(2 * pi) * sig) * sum - ER / 4;
+out = 4 / (sqrt(2 * pi) * sig) * sum - ER;
 
 % test
 % out = A / 100 + W + T_ + ER - k * sig ^ 2;

@@ -3,7 +3,7 @@ Ai = [300];
 Wi = [25];
 ki = [0.015];
 ERi = [0.4];
-Ti = (0.1:0.1:1);
+Ti = (0.7:0.05:1.4);
 
 [ra ca] = size(Ai);
 [rw cw] = size(Wi);
@@ -18,17 +18,17 @@ global A W k ER T sig;
 stat = zeros(N, 7);
 cnt = 0;
 
-for aa = 1:1
-    for ww = 1:1
-        for kk = 1:1
-            for ee = 1:1
+for aa = 1:ca
+    for ww = 1:cw
+        for kk = 1:ck
+            for ee = 1:ce
                 A = Ai(aa);
                 W = Wi(ww);
                 k = ki(kk);
                 ER = ERi(ee);
                 
-                for tt = 1:10
-                    s0 = 5;
+                for tt = 1:ct
+                    s0 = 10;
                     T = Ti(tt);
                     sig = k * A / T;
                     T_ = fsolve(@func, s0, optimset('Display', 'iter'));
