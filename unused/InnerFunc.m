@@ -2,7 +2,7 @@ function out = InnerFunc(L, T_)
 % The inner function.
 % That presents the probability of error at the second chance.
 
-if 1
+if 0
     out = 1;
 else
     global W k
@@ -24,18 +24,18 @@ else
             s = p1 * xk(k) + p2;
             subSum = subSum + Ak(k) * p1 * InnerIntegrand(s, sig_);
         end
+        sum = sum + subSum;
 %         if subSum < 0
 %             subSum
 %         end
-%         sum = sum + subSum;
 %         if sum < 0
 %             sum
 %         end
     end
     out = 1 / (sqrt(2 * pi) * sig_) * sum;
-%     if out < 0
-%         fprintf('sum=%f, out=%f, sig_=%f, k=%f, L=%f\n', sum, out, sig_, k, L);
-%     end
+    if out <= 0
+        fprintf('sum=%f, out=%f, sig_=%f, k=%f, L=%f\n', sum, out, sig_, k, L);
+    end
 end
 
 end
