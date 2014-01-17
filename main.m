@@ -13,7 +13,7 @@ Ti = (0.1:0.1:1);
 
 N = ca * cw * ck * ce * ct;
 
-global A W k ER T sigma;
+global A W k ER T sig;
 
 stat = zeros(N, 7);
 cnt = 0;
@@ -30,7 +30,7 @@ for aa = 1:1
                 for tt = 1:10
                     s0 = 5;
                     T = Ti(tt);
-                    sigma = k * A / T;
+                    sig = k * A / T;
                     T_ = fsolve(@func, s0, optimset('Display', 'iter'));
                     MT = T + T_;
                     cnt = cnt + 1;
@@ -40,5 +40,5 @@ for aa = 1:1
         end
     end
 end
-plot(stat(:, 5), stat(:, 6));
+plot(stat(:, 5), stat(:, 7));
 stat

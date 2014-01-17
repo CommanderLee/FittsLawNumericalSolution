@@ -1,7 +1,7 @@
 function out = func(T_)
 % The main function of the project, reflect the Error Rate.
 
-global A W k ER T sigma
+global W k ER sig
 
 dL = 0.1;
 % Gauss-Legendre Coefficients
@@ -21,11 +21,11 @@ for a = (-inf):dL:(-W/2 - dL)
         subSum = subSum + Ak(k) * p1 * OuterIntegrand(L, T_);
     end
     sum = sum + subSum;
-    fprintf('T_:%f, a=%f, b=%f, subSum=%f.\n', T_, a, b, subSum);
+    % fprintf('T_:%f, a=%f, b=%f, subSum=%f.\n', T_, a, b, subSum);
 end
-out = 1 / (sqrt(2 * pi) * sigma) * sum - ER / 4;
+out = 1 / (sqrt(2 * pi) * sig) * sum - ER / 4;
 
 % test
-% out = A / 100 + W + T_ + ER - k * sigma ^ 2;
+% out = A / 100 + W + T_ + ER - k * sig ^ 2;
 
 end

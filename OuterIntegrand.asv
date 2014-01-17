@@ -1,4 +1,4 @@
-function out = OuterIntegrand(L)
+function out = OuterIntegrand(L, T_)
 % The outer integrand of the function. dL.
-global sigma
-out = exp(-L^2 / (2 * sigma^2)) * func;
+out = exp(-L^2 / (2 * sigma^2)) * InnerFunc(L);
+end
