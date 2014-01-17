@@ -1,9 +1,7 @@
-function out = func(T_)
-% The main function of the project, reflect the Error Rate.
+function out = func(W, k, sig, sig_)
+% Calculating T' with Gauss-Legendre algorithm.
 
-global W k ER sig
-
-dL = 0.1;
+dL = 0.01;
 % Gauss-Legendre Coefficients
 xk = [-0.9324695 0.9324695 -0.6612094 0.6612094 -0.2386192 0.2386192];
 Ak = [ 0.1713245 0.1713245  0.3607616 0.3607616  0.4679139 0.4679139];
@@ -18,12 +16,12 @@ for a = (-inf):dL:(-W/2 - dL)
     subSum = 0.0;
     for k = 1:6
         L = p1 * xk(k) + p2;
-        subSum = subSum + Ak(k) * p1 * OuterIntegrand(L, T_);
+        subSum = subSum + abs(Ak(k) * p1 * (normpdf(L, 0, sig) * k * L / sig_));
     end
     sum = sum + subSum;
     % fprintf('T_:%f, a=%f, b=%f, p1=%f, p2=%f, subSum=%f.\n', T_, a, b, p1, p2, subSum);
 end
-out = 4 / (sqrt(2 * pi) * sig) * sum - ER;
+out = sum;
 
 % test
 % out = A / 100 + W + T_ + ER - k * sig ^ 2;

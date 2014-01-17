@@ -7,5 +7,6 @@ ER = 0.04;
 T = 0.9;
 T_ = 0;
 sig = k * A / T;
-out = func(T_) + ER;
+% out = func(T_) + ER;
+out = 1 - 2 * normcdf(-3, 0, 1);
 out

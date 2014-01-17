@@ -1,22 +1,51 @@
 % The main procedure of the numerical analysis of Fitts' Law.
-Ai = [300]
+Ai = [300];
 Wi = [25];
-ki = [2];
-ERi = [0.04];
+ki = [0.015];
+ERi = [0.4];
+Ti = (0.7:0.05:1.4);
 
-global A W k ER 
-stat = [];
+[ra ca] = size(Ai);
+[rw cw] = size(Wi);
+[rk ck] = size(ki);
+[re ce] = size(ERi);
+[rt ct] = size(Ti);
 
-for aa = 1:1
-    for ww = 1:1
-        for kk = 1:1
-            for ee = 1:1
+N = ca * cw * ck * ce * ct;
+
+stat = zeros(N, 7);
+cnt = 0;
+
+global W ER2;
+
+for aa = 1:ca
+    for ww = 1:cw
+        for kk = 1:ck
+            for ee = 1:ce
                 A = Ai(aa);
                 W = Wi(ww);
                 k = ki(kk);
                 ER = ERi(ee);
                 
-                s0 = 5;
-                sigma = fsolve(@func, s0, optimset('Display', 'iter'));
-                T = k * A / sigma;
-                
+                for tt = 1:ct
+                    T = Ti(tt);
+                    T_ = 0;
+                    sig = k * A / T;
+                    ER1 = 2 * normcdf(-W/2, 0, sig);
+                    if ER1 <= ER
+                        T_ = 0;
+                    else
+                        ER2 = ER / ER1;
+                        sig_ = fsolve(@getSig_, 10, optimset('Display', 'iter'));
+                        T_ = func(
+                    end
+                    MT = T + T_;
+                    cnt = cnt + 1;
+                    stat(cnt, :) = [A W k ER T T_ MT];
+                end
+            end
+        end
+    end
+end
+plot(stat(:, 5), stat(:, 7));
+stat
