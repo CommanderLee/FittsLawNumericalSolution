@@ -8,5 +8,6 @@ T = 0.9;
 T_ = 0;
 sig = k * A / T;
 % out = func(T_) + ER;
-out = 1 - 2 * normcdf(-3, 0, 1);
+% out = 1 - 2 * normcdf(-3, 0, 1);
+out = getSig_(1);
 out

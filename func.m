@@ -8,7 +8,7 @@ Ak = [ 0.1713245 0.1713245  0.3607616 0.3607616  0.4679139 0.4679139];
 sum = 0.0;
 inf = W;
 
-fprintf('func.m\n');
+% fprintf('func.m\n');
 for a = (-inf):dL:(-W/2 - dL)
     b = a + dL;
     p1 = (b - a) / 2;
