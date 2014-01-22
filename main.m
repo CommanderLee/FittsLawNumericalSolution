@@ -1,14 +1,14 @@
 % The main procedure of the numerical analysis of Fitts' Law.
 Ai = [300 200 400 500];
 Wi = [25 30 35 40];
-ki = [0.015];
-ERi = [0.04];
+ki = [0.020];
+ERi = [0.08];
 Tleft = 0.1;
 Tright = 3;
 Tdepth = 20;
 Tnum = 100;
 
-resultFileName = 'result1.csv';
+resultFileName = 'result2.csv';
 % dt = 0.01;
 % Ti = (0.1:dt:3.0);
 
