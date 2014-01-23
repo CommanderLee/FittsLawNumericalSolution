@@ -5,10 +5,12 @@ ki = [0.020];
 ERi = [0.08];
 Tleft = 0.1;
 Tright = 3;
-Tdepth = 20;
-Tnum = 100;
+% Tdepth = 20;
+Tdepth = 0;
+% Tnum = 100;
+Tnum = 10000;
 
-resultFileName = 'result2.csv';
+resultFileName = 'result3.csv';
 % dt = 0.01;
 % Ti = (0.1:dt:3.0);
 
@@ -17,13 +19,13 @@ resultFileName = 'result2.csv';
 [rk ck] = size(ki);
 [re ce] = size(ERi);
 
-isplot = 0;
+isplot = 1;
 
 global W ER2;
 
 cntR = 0;
 resN = ca * cw * ck * ce;
-results = zeros(resN, 7);
+results = zeros(resN, 9);
 
 for aa = 1:ca
     for ww = 1:cw
@@ -50,6 +52,7 @@ for aa = 1:ca
                     ER1 = 2 * normcdf(-W/2, 0, sig);
                     if ER1 <= ER
                         T1_ = 0;
+                        ER2 = 0;
                     else
                         ER2 = ER / ER1;
                         sig_ = fsolve(@getSig_, 10, optimset('Display', 'off'));
@@ -65,6 +68,7 @@ for aa = 1:ca
                     ER1 = 2 * normcdf(-W/2, 0, sig);
                     if ER1 <= ER
                         T2_ = 0;
+                        ER2 = 0;
                     else
                         ER2 = ER / ER1;
                         sig_ = fsolve(@getSig_, 10, optimset('Display', 'off'));
@@ -85,7 +89,7 @@ for aa = 1:ca
                 [rt ct] = size(Ti);
                 
                 N = ct;
-                stat = zeros(N, 7);
+                stat = zeros(N, 9);
                 cnt = 0;
                 for tt=1:ct
                     T = Ti(tt);
@@ -94,6 +98,7 @@ for aa = 1:ca
                     ER1 = 2 * normcdf(-W/2, 0, sig);
                     if ER1 <= ER
                         T_ = 0;
+                        ER2 = 0;
                     else
                         ER2 = ER / ER1;
                         sig_ = fsolve(@getSig_, 10, optimset('Display', 'off'));
@@ -103,15 +108,14 @@ for aa = 1:ca
                     MT = T + T_;
                     
                     cnt = cnt + 1;
-                    stat(cnt, :) = [A W k ER T T_ MT];
-                    
-                    if isplot
-                        subplot(2, 2, ii);
-                        plot(stat(:, 5), stat(:, 7));
-                    end
+                    stat(cnt, :) = [A W k ER ER1 ER2 T T_ MT];
+                end
+                
+                if isplot
+                    plot(stat(:, 7), stat(:, 9));
                 end
                 % stat
-                [minMT loc] = min(stat(:, 7));
+                [minMT loc] = min(stat(:, 9));
                 
                 cntR = cntR + 1;
                 results(cntR, :) = stat(loc(1), :);
@@ -123,9 +127,13 @@ end
 
 
 for rr=1:resN
-    fprintf('The MTmin=%f, with T=%f, T''=%f.\nConstraint: A=%f, W=%f, k=%f, ER<=%f.\n\n',...
-        results(rr, 7), results(rr, 5), results(rr, 6), results(rr, 1),...
-        results(rr, 2), results(rr, 3), results(rr, 4));
+    fprintf('The MTmin=%f, with T=%f, T''=%f.\nConstraint: A=%f, W=%f, k=%f, ER<=%f, ER1=%f, ER2=%f.\n\n',...
+        results(rr, 9), results(rr, 7), results(rr, 8), results(rr, 1), results(rr, 2),...
+        results(rr, 3), results(rr, 4), results(rr, 5), results(rr, 6));
 end
 
-csvwrite(resultFileName, results);
+fid = fopen(resultFileName, 'w');
+fprintf(fid, 'A,W,k,ER,ER1,ER2,T,T'',MT\n');
+fclose(fid);
+
+dlmwrite(resultFileName, results, '-append');

@@ -4,12 +4,13 @@ InputFileName = 'result2.csv';
 OutputFileName = 'evaluation2.csv';
 isPlot = 1;
 
-% A W k ER T T_ MT
-mat = csvread(InputFileName);
+% A W k ER ER1 ER2 T T_ MT
+% skip the title
+mat = csvread(InputFileName, 1, 0);
 
 % Evaluate with MT = a + b*sqrt(A/W)
 X = sqrt(mat(:, 1) ./ mat(:, 2));
-Y = mat(:, 7);
+Y = mat(:, 9);
 p = polyfit(X, Y, 1);
 F = polyval(p, X);
 r = corrcoef(X, Y);
@@ -27,7 +28,7 @@ end
 
 % Evaluate with MT = a + b*log(A/W + 1)
 X = log(mat(:, 1) ./ mat(:, 2) + 1);
-Y = mat(:, 7);
+Y = mat(:, 9);
 p = polyfit(X, Y, 1);
 F = polyval(p, X);
 r = corrcoef(X, Y);
@@ -43,7 +44,11 @@ if isPlot
     hold on;
 end
 
-csvwrite(OutputFileName, [A B R]);
+fid = fopen(OutputFileName, 'w');
+fprintf(fid, 'A,B,R\n');
+fclose(fid);
+
+dlmwrite(OutputFileName, [A B R], '-append');
 A
 B
 R
