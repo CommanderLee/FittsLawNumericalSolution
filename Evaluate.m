@@ -1,7 +1,7 @@
 % Evaluate the results of the Two-Submovement model.
 
-InputFileName = 'result5.csv';
-OutputFileName = 'evaluation5.csv';
+InputFileName = 'result6.csv';
+OutputFileName = 'evaluation6.csv';
 isPlot = 1;
 
 % A W k ER ER1 ER2 T T_ MT
