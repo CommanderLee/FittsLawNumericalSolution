@@ -1,16 +1,15 @@
 % The main procedure of the numerical analysis of Fitts' Law.
-Ai = [300 200 400 500];
-Wi = [25 30 35 40];
-ki = [0.020];
+Ai = [300 100 200 400 500];
+Wi = [25 20 30 35 40];
+ki = [0.20];
 ERi = [0.08];
-Tleft = 0.1;
+Tleft = 0.001;
 Tright = 3;
-% Tdepth = 20;
-Tdepth = 0;
-% Tnum = 100;
-Tnum = 10000;
+Tdepth = 20;
+% Tdepth = 0;
+Tnum = 1000;
 
-resultFileName = 'result3.csv';
+resultFileName = 'result5.csv';
 % dt = 0.01;
 % Ti = (0.1:dt:3.0);
 
@@ -19,13 +18,15 @@ resultFileName = 'result3.csv';
 [rk ck] = size(ki);
 [re ce] = size(ERi);
 
-isplot = 1;
+isplot = 0;
 
-global W ER2;
+global W ER2 sig k sig_;
 
 cntR = 0;
 resN = ca * cw * ck * ce;
 results = zeros(resN, 9);
+
+% F = @(L)abs(normpdf(L, 0, sig) .* k .* L ./ sig_);
 
 for aa = 1:ca
     for ww = 1:cw
@@ -57,7 +58,10 @@ for aa = 1:ca
                         ER2 = ER / ER1;
                         sig_ = fsolve(@getSig_, 10, optimset('Display', 'off'));
                         % sig_ = fsolve(@getSig_, 10, optimset('Display', 'iter'));
-                        T1_ = func(W, k, sig, sig_);
+                        % T1_ = func(W, k, sig, sig_);
+                        F = @(L)abs(normpdf(L, 0, sig) .* k .* L ./ sig_);
+                        [T1_ errbnd] = quadgk(F, W/2, inf);
+                        T1_ = T1_ * 2;
                     end
                     MT1 = T1 + T1_;
                     
@@ -73,7 +77,10 @@ for aa = 1:ca
                         ER2 = ER / ER1;
                         sig_ = fsolve(@getSig_, 10, optimset('Display', 'off'));
                         % sig_ = fsolve(@getSig_, 10, optimset('Display', 'iter'));
-                        T2_ = func(W, k, sig, sig_);
+                        % T2_ = func(W, k, sig, sig_);
+                        F = @(L)abs(normpdf(L, 0, sig) .* k .* L ./ sig_);
+                        [T2_ errbnd] = quadgk(F, W/2, inf);
+                        T2_ = T2_ * 2;
                     end
                     MT2 = T2 + T2_;
                     
@@ -87,7 +94,8 @@ for aa = 1:ca
                 dt = (Tb - Ta) / Tnum;
                 Ti = (Ta:dt:Tb);
                 [rt ct] = size(Ti);
-                
+                % Ta
+                % Tb
                 N = ct;
                 stat = zeros(N, 9);
                 cnt = 0;
@@ -103,7 +111,10 @@ for aa = 1:ca
                         ER2 = ER / ER1;
                         sig_ = fsolve(@getSig_, 10, optimset('Display', 'off'));
                         % sig_ = fsolve(@getSig_, 10, optimset('Display', 'iter'));
-                        T_ = func(W, k, sig, sig_);
+                        % T_ = func(W, k, sig, sig_);
+                        F = @(L)abs(normpdf(L, 0, sig) .* k .* L ./ sig_);
+                        [T_ errbnd] = quadgk(F, W/2, inf);
+                        T_ = T_ * 2;
                     end
                     MT = T + T_;
                     
@@ -112,7 +123,9 @@ for aa = 1:ca
                 end
                 
                 if isplot
-                    plot(stat(:, 7), stat(:, 9));
+                    plot(stat(:, 7), stat(:, 9), 'b');
+                    hold on;
+                    plot(stat(:, 7), 1-stat(:, 5), 'r');
                 end
                 % stat
                 [minMT loc] = min(stat(:, 9));
