@@ -1,6 +1,6 @@
 % The main procedure of the numerical analysis of Fitts' Law.
-Ai = [300 100 200 400 500];
-Wi = [25 20 30 35 40];
+Ai = [150];%[300 100 200 400 500];
+Wi = [35];%[25 20 30 35 40];
 ki = [0.10];
 ERi = [0.04];
 Tleft = 0.001;
@@ -10,6 +10,7 @@ Tdepth = 20;
 Tnum = 1000;
 
 resultFileName = 'result7.csv';
+isAppend = 1;
 % dt = 0.01;
 % Ti = (0.1:dt:3.0);
 
@@ -145,8 +146,10 @@ for rr=1:resN
         results(rr, 3), results(rr, 4), results(rr, 5), results(rr, 6));
 end
 
-fid = fopen(resultFileName, 'w');
-fprintf(fid, 'A,W,k,ER,ER1,ER2,T,T'',MT\n');
-fclose(fid);
+if isAppend == 0
+    fid = fopen(resultFileName, 'w');
+    fprintf(fid, 'A,W,k,ER,ER1,ER2,T,T'',MT\n');
+    fclose(fid);
+end
 
 dlmwrite(resultFileName, results, '-append');
