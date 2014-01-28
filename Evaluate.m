@@ -22,6 +22,7 @@ cnt = 0;
 A = zeros(sortMatR, 2);
 B = zeros(sortMatR, 2);
 R = zeros(sortMatR, 2);
+kER = zeros(sortMatR, 2);
 
 for rr = 1:sortMatR
     if sortMat(rr, 3) ~= currk || sortMat(rr, 4) ~= currER || rr == sortMatR
@@ -30,10 +31,10 @@ for rr = 1:sortMatR
             ed = rr;
         else
             ed = rr - 1;
-            currk = sortMat(rr, 3);
-            currER = sortMat(rr, 4);
         end
         cnt = cnt + 1;
+        
+        kER(cnt, :) = [currk currER];
         
         % Evaluate with MT = a + b*sqrt(A/W)
         X = sqrt(sortMat(st:ed, 1) ./ sortMat(st:ed, 2));
@@ -72,14 +73,16 @@ for rr = 1:sortMatR
         end
         
         st = rr;
+        currk = sortMat(rr, 3);
+        currER = sortMat(rr, 4);
     end
 end
 
 fid = fopen(OutputFileName, 'w');
-fprintf(fid, 'A1,B1,R1,A2,B2,R2\n');
+fprintf(fid, 'k,ER,A1,B1,R1,A2,B2,R2\n');
 fclose(fid);
 
-dlmwrite(OutputFileName, [A(1:cnt, 1) B(1:cnt, 1) R(1:cnt, 1) A(1:cnt, 2) B(1:cnt, 2) R(1:cnt, 2)], '-append');
+dlmwrite(OutputFileName, [kER(1:cnt, :) A(1:cnt, 1) B(1:cnt, 1) R(1:cnt, 1) A(1:cnt, 2) B(1:cnt, 2) R(1:cnt, 2)], '-append');
 A(1:cnt, :)
 B(1:cnt, :)
 R(1:cnt, :)
