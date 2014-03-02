@@ -1,7 +1,6 @@
 % Observe T and T'.
 
 InputFileName = 'result8.csv';
-RegressFileName = 'regress8.csv';
 OutputFileName = 'observeT8.csv';
 
 % A W k ER ER1 ER2 T T_ MT
