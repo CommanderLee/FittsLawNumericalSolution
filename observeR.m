@@ -1,4 +1,4 @@
-% Observe R.
+% Observe R ( the correlation).
 
 InputFileName = 'evaluation8.csv';
 OutputFileName = 'observeR8.csv';
